@@ -27,9 +27,21 @@ class UsersRepository {
       })
     );
   }
+  async create(attributes) {
+    // The below will give you list of users
+    const records = await this.getAll();
+    records.push(attributes);
+    // write the updated array back to this.filename
+    await fs.promises.writeFile(this.filename, JSON.stringify(records));
+  }
 }
+
 const test = async () => {
   const repo = new UsersRepository("users.json");
+  await repo.create({
+    email: "test@test.com",
+    password: "password",
+  });
   const users = await repo.getAll();
   console.log(users);
 };
