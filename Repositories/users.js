@@ -1,4 +1,5 @@
 const fs = require("fs");
+const crypto = require("crypto");
 
 class UsersRepository {
   // remember constructor functions get called immediately when we create a new instance of a class
@@ -28,6 +29,7 @@ class UsersRepository {
     );
   }
   async create(attributes) {
+    attributes.id = this.randomId();
     // The below will give you list of users
     const records = await this.getAll();
     records.push(attributes);
@@ -40,6 +42,10 @@ class UsersRepository {
       // the second arg to json stringify is a custome formatter the third arg is the level of indentation of the string, so with every layer of nesting, we're getting two spaces put down
       JSON.stringify(records, null, 2)
     );
+  }
+  randomId() {
+    // let's use the crypto module in node.js docs
+    return crypto.randomBytes(4).toString("hex");
   }
 }
 
