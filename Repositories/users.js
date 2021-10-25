@@ -58,11 +58,22 @@ class UsersRepository {
     const filteredRecords = records.filter((record) => record.id !== id);
     await this.writeAll(filteredRecords);
   }
+  async update(id, attributes) {
+    const records = await this.getAll();
+    // we don't use the getOne method below because we need to save all the records
+    const record = await records.find((record) => record.id === id);
+    if (!record) {
+      throw new Error(`Record with id of ${id} not found!`);
+    }
+    // assign update
+    Object.assign(record, attributes);
+    await this.writeAll(records);
+  }
 }
 
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  await repo.delete("4f4c96be");
+  await repo.update("ad748yze", { favoriteColor: "blue" });
 };
 
 test();
