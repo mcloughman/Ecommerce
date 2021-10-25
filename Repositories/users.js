@@ -69,11 +69,28 @@ class UsersRepository {
     Object.assign(record, attributes);
     await this.writeAll(records);
   }
+  async getOneBy(filters) {
+    const records = await this.getAll();
+    for (let record of records) {
+      let found = true;
+      // we need to look through every key value pair of our filters object. We will compare key value in filters object to record object
+      // If they are not the same, then we will update found to false
+      for (let key in filters) {
+        if (record[key] !== filters[key]) {
+          found = false;
+        }
+      }
+      if (found) {
+        return record;
+      }
+    }
+  }
 }
 
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  await repo.update("ad748yze", { favoriteColor: "blue" });
+  const match = await repo.getOneBy({ favoriteColor: "red" });
+  console.log(match);
 };
 
 test();
