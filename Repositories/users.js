@@ -31,8 +31,15 @@ class UsersRepository {
     // The below will give you list of users
     const records = await this.getAll();
     records.push(attributes);
+    await this.writeAll(records);
+  }
+  async writeAll(records) {
     // write the updated array back to this.filename
-    await fs.promises.writeFile(this.filename, JSON.stringify(records));
+    await fs.promises.writeFile(
+      this.filename,
+      // the second arg to json stringify is a custome formatter the third arg is the level of indentation of the string, so with every layer of nesting, we're getting two spaces put down
+      JSON.stringify(records, null, 2)
+    );
   }
 }
 
