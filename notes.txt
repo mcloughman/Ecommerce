@@ -1,0 +1,12 @@
+Middleware - function that does some preprocessing on the req and res objects
+
+we run the middleware function before running the callback
+
+the middleware fun will always take three args (req, res, next) 
+
+-- But there are flaws with our home built bodyParser middleware which make it not production grade. 
+1. It only creates a req.body for POST requests. There are other req methods which body is used
+
+using the body-parser library accounts for corner cases which our homeade fuction does not
+
+it appears that body parser is deprecated. but i don't want to get bogged down with that. so we will move forward for the time being. it's not the focal point of the project

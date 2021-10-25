@@ -1,5 +1,10 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+
 const app = express();
+// when we use the app.use, express will know to use bodyParser on all forms
+// we wil use the app.use whenever we want to wire up middleware inside our app
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // app is an object that describes all the things our web server can do
 // we will customize app throught the project
@@ -21,28 +26,8 @@ app.get("/", (req, res) => {
     `);
 });
 
-const bodyParser = (req, res, next) => {
-  // conditional makes sure we only run middleware on POST requests
-  if (req.method === "POST") {
-    req.on("data", (data) => {
-      const parsed = data.toString("utf8").split("&");
-      const formData = {};
-      for (let keyVal of parsed) {
-        const [key, value] = keyVal.split("=");
-        formData[key] = value;
-      }
-      // instead of just console.logging formData, save the formData object as the request body
-
-      req.body = formData;
-      next();
-    });
-  } else {
-    next();
-  }
-};
-
 // and now we need to actually make use of the middleware we created
-app.post("/", bodyParser, (req, res) => {
+app.post("/", (req, res) => {
   console.log(req.body);
   res.send("<h1>Account Created</h1>");
 });
