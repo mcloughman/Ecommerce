@@ -17,7 +17,21 @@ class UsersRepository {
       fs.writeFileSync(this.filename, "[]");
     }
   }
-  async checkForFile() {}
+  // just a note to remember that we used "Sync" methods in the constructor because constructor doesn't take async and also
+  // we were only going to need them initially to create the json file
+  async getAll() {
+    // Open the file called this.filename, read its contents, parse its contents, and returned parsed
+    return JSON.parse(
+      await fs.promises.readFile(this.filename, {
+        encoding: "utf8",
+      })
+    );
+  }
 }
+const test = async () => {
+  const repo = new UsersRepository("users.json");
+  const users = await repo.getAll();
+  console.log(users);
+};
 
-const repo = new UsersRepository("users.json");
+test();
