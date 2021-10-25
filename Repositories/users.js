@@ -52,12 +52,17 @@ class UsersRepository {
     // then use the find method instead of writing out a for loop
     return records.find((record) => record.id === id);
   }
+  async delete(id) {
+    const records = await this.getAll();
+    // use filter and return all the records that don't match the id
+    const filteredRecords = records.filter((record) => record.id !== id);
+    await this.writeAll(filteredRecords);
+  }
 }
 
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  const user = await repo.getOne("4f4c96be");
-  console.log(user);
+  await repo.delete("4f4c96be");
 };
 
 test();
