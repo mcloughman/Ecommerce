@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const usersRepo = require("./repositories/users");
+const { comparePasswords } = require("./repositories/users");
 
 const app = express();
 // when we use the app.use, express will know to use bodyParser on all forms
@@ -81,8 +82,12 @@ app.post("/signin", async (req, res) => {
   if (!user) {
     return res.send("Email not found");
   }
-  if (user.password !== password) {
-    return res.send("Invalid password!");
+  const validPassword = await usersRepo.comparePasswords(
+    user.password,
+    password
+  );
+  if (!validPassword) {
+    return res.send("Invalid Password");
   }
   req.session.userId = user.id;
   res.send("You are signed in.");

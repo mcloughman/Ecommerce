@@ -50,6 +50,16 @@ class UsersRepository {
     await this.writeAll(records);
     return record;
   }
+  async comparePasswords(savedPassword, suppliedPassword) {
+    // let parts = savedPassword.split(".");
+    // const hashed = parts[0]
+    // const salt = parts[1];
+    const [hashed, salt] = savedPassword.split(".");
+    const hashSuppliedBuf = await scrypt(suppliedPassword, salt, 64);
+
+    return hashed === hashSuppliedBuf.toString("hex");
+  }
+
   async writeAll(records) {
     // write the updated array back to this.filename
     await fs.promises.writeFile(
