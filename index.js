@@ -20,7 +20,7 @@ app.use(
 // express is a library that helps us set up a full feature server
 
 // anytime someone makes a request to the root route of our app, we want to run the callback
-app.get("/", (req, res) => {
+app.get("/signup", (req, res) => {
   res.send(`
         <div>
           Your id is: ${req.session.userId}
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 });
 
 // and now we need to actually make use of the middleware we created
-app.post("/", async (req, res) => {
+app.post("/signup", async (req, res) => {
   const { email, password, passwordConfirmation } = req.body;
   // key and value same for email so no need for email: email
   const existingUser = await usersRepo.getOneBy({ email });
@@ -54,6 +54,25 @@ app.post("/", async (req, res) => {
   // we don't have to name the property userId!
   req.session.userId = user.id;
   res.send("<h1>Account Created</h1>");
+});
+
+app.get("/signout", (req, res) => {
+  req.session = null;
+  res.send("You are logged out");
+});
+
+app.get("/signin", (req, res) => {
+  res.send(`
+  <div>
+  
+    <form method="POST">
+        <input name="email" placeholder="email"/>
+        <input name="password" placeholder="password"/>
+        
+        <button>Sign In</button>
+    </form>
+</div>
+  `);
 });
 
 app.listen(3000, () => {
