@@ -1,11 +1,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieSession = require("cookie-session");
 const usersRepo = require("./repositories/users");
 
 const app = express();
 // when we use the app.use, express will know to use bodyParser on all forms
 // we will use the app.use whenever we want to wire up middleware inside our app
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cookieSession({
+    keys: ["gibberishwhatever"],
+  })
+);
 
 // app is an object that describes all the things our web server can do
 // we will customize app throught the project
@@ -17,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send(`
         <div>
+          Your id is: ${req.session.userId}
             <form method="POST">
                 <input name="email" placeholder="email"/>
                 <input name="password" placeholder="password"/>
@@ -30,6 +37,7 @@ app.get("/", (req, res) => {
 // and now we need to actually make use of the middleware we created
 app.post("/", async (req, res) => {
   const { email, password, passwordConfirmation } = req.body;
+  // key and value same for email so no need for email: email
   const existingUser = await usersRepo.getOneBy({ email });
   if (existingUser) {
     return res.send("Email in use");
@@ -39,6 +47,12 @@ app.post("/", async (req, res) => {
   }
   // Create a user in our usersRepo to rejpresent this person
   // Store the id of the user inside the users cookie
+  // again key and val for email and password equal
+  const user = await usersRepo.create({ email, password });
+
+  // req.session is added by cookie-session it's given as an empty object to which we can add whatever we want
+  // we don't have to name the property userId!
+  req.session.userId = user.id;
   res.send("<h1>Account Created</h1>");
 });
 
