@@ -1,10 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const repo = require("./users");
+const usersRepo = require("./repositories/users");
 
 const app = express();
 // when we use the app.use, express will know to use bodyParser on all forms
-// we wil use the app.use whenever we want to wire up middleware inside our app
+// we will use the app.use whenever we want to wire up middleware inside our app
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // app is an object that describes all the things our web server can do
@@ -28,8 +28,17 @@ app.get("/", (req, res) => {
 });
 
 // and now we need to actually make use of the middleware we created
-app.post("/", (req, res) => {
-  console.log(req.body);
+app.post("/", async (req, res) => {
+  const { email, password, passwordConfirmation } = req.body;
+  const existingUser = await usersRepo.getOneBy({ email });
+  if (existingUser) {
+    return res.send("Email in use");
+  }
+  if (password !== passwordConfirmation) {
+    return res.send("Passwords must match");
+  }
+  // Create a user in our usersRepo to rejpresent this person
+  // Store the id of the user inside the users cookie
   res.send("<h1>Account Created</h1>");
 });
 
