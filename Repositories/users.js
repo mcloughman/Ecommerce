@@ -1,6 +1,7 @@
 const fs = require("fs");
 const crypto = require("crypto");
-
+const util = require("util");
+const scrypt = util.promisify(crypto.scrypt); //returns a
 class UsersRepository {
   // remember constructor functions get called immediately when we create a new instance of a class
   // as an argument to the constructor, we will expect a filename
@@ -30,11 +31,24 @@ class UsersRepository {
   }
   async create(attributes) {
     attributes.id = this.randomId();
-    // The below will give you list of users
+
+    const salt = crypto.randomBytes(8).toString("hex");
+
+    // crypto.scrypt(attributes.password, salt, 64, (err, buffer) => {
+    //   const hashed = buffer.toString("hex");
+    // });
+
+    const buf = await scrypt(attributes.password, salt, 64);
+
     const records = await this.getAll();
-    records.push(attributes);
+
+    const record = {
+      ...attributes, // ... means all the props and then below  the password prop
+      password: `${buf.toString("hex")}.${salt}`, // the . before salt is so we know where salt begins
+    };
+    records.push(record);
     await this.writeAll(records);
-    return attributes;
+    return record;
   }
   async writeAll(records) {
     // write the updated array back to this.filename
