@@ -6,5 +6,10 @@
     "email": "mcloughman@gmail.com",
     "password": "hello",
     "id": "45aea2c4"
+  },
+  {
+    "email": "charlie.coyle@yahoo.com",
+    "password": "password",
+    "id": "9fab0f22"
   }
 ]
