@@ -87,10 +87,5 @@ class UsersRepository {
   }
 }
 
-const test = async () => {
-  const repo = new UsersRepository("users.json");
-  const match = await repo.getOneBy({ favoriteColor: "red" });
-  console.log(match);
-};
-
-test();
+// better to create the instance here than simply exporting the class and creating the instance elsewhere because let's say you accidentally instantiate user.json instead of users.json and you end up with one of each. Could be problematic
+module.exports = new UsersRepository("users.json");
