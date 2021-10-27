@@ -8,6 +8,8 @@ const {
   requireEmail,
   requirePassword,
   requirePasswordConfirmation,
+  requireEmailExists,
+  requireValidPasswordForUser,
 } = require("./validators");
 // we will create a sub-router and export it
 const router = express.Router();
@@ -50,21 +52,18 @@ router.get("/signin", (req, res) => {
   res.send(signinTemplate());
 });
 
-router.post("/signin", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await usersRepo.getOneBy({ email: email });
-  if (!user) {
-    return res.send("Email not found");
+router.post(
+  "/signin",
+  [requireEmailExists, requireValidPasswordForUser],
+  async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    const { email } = req.body;
+    const user = await usersRepo.getOneBy({ email: email });
+
+    req.session.userId = user.id;
+    res.send("You are signed in.");
   }
-  const validPassword = await usersRepo.comparePasswords(
-    user.password,
-    password
-  );
-  if (!validPassword) {
-    return res.send("Invalid Password");
-  }
-  req.session.userId = user.id;
-  res.send("You are signed in.");
-});
+);
 
 module.exports = router;
