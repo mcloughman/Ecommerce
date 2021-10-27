@@ -10,3 +10,12 @@ the middleware fun will always take three args (req, res, next)
 using the body-parser library accounts for corner cases which our homeade fuction does not
 
 it appears that body parser is deprecated. but i don't want to get bogged down with that. so we will move forward for the time being. it's not the focal point of the project
+
+
+Hashing and Salting - Initially, we have passwords stored as plain text in our JSON file. But we need to hash and salt them. The salt is a random string added to the end of the password prior to hashing. The random salt is the stored along with the hashed password + salt. Then when a user signs in and enters their password, the system can add the stored salt to the end of the password that the user entered. Then it's run through the hash algorithm to see if a match
+
+- to generate the salt, inside the node.js crypto module, we will use randomBytes method and for the hash algorithm we will use the scrypt method
+
+-- when we use express-validator, the implementation of validator methods is different syntax from validator.js. express makes it easier for the user.
+
+-- when we do error handling video 394, we want to resubmit the signup form if errors and we want those errors to be included. But we have to be careful when changing signup.js. If we add errors as a second prop, we need to be careful. because at initial signup, we don't want errors involved. And if we include it, it could lead to an issue. So we will write oout getError helper function
