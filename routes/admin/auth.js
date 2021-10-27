@@ -16,9 +16,30 @@ router.get("/signup", (req, res) => {
 router.post(
   "/signup",
   [
-    check("email").trim().normalizeEmail().isEmail(),
-    check("password").trim().isLength({ min: 4, max: 20 }),
-    check("passwordConfirmation").trim().isLength({ min: 4, max: 20 }),
+    check("email")
+      .trim()
+      .normalizeEmail()
+      .isEmail()
+      .withMessage("Must be a valid email")
+      .custom(async (email) => {
+        const existingUser = await usersRepo.getOneBy({ email });
+        if (existingUser) {
+          throw new Error("Email already in use");
+        }
+      }),
+    check("password")
+      .trim()
+      .isLength({ min: 4, max: 20 })
+      .withMessage("Must be between 4 and 20 characters"),
+    check("passwordConfirmation")
+      .trim()
+      .isLength({ min: 4, max: 20 })
+      .withMessage("Must be between 4 and 20 characters")
+      .custom((passwordConfirmation, { req }) => {
+        if (passwordConfirmation !== req.body.password) {
+          throw new Error("Passwords must match");
+        }
+      }),
   ],
 
   async (req, res) => {
@@ -26,13 +47,7 @@ router.post(
     console.log(errors);
     const { email, password, passwordConfirmation } = req.body;
     // key and value same for email so no need for email: email
-    const existingUser = await usersRepo.getOneBy({ email });
-    if (existingUser) {
-      return res.send("Email in use");
-    }
-    if (password !== passwordConfirmation) {
-      return res.send("Passwords must match");
-    }
+
     // Create a user in our usersRepo to rejpresent this person
     // Store the id of the user inside the users cookie
     // again key and val for email and password equal
