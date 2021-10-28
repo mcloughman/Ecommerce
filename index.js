@@ -2,10 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const authRouter = require("./routes/admin/auth");
+const productsRouter = require("./routes/admin/products");
 const { comparePasswords } = require("./repositories/users");
 
 const app = express();
-app.use(express.static("public"));
+app.use(express.static("public")); // every request will come through here, express will look in public folder
 // when we use the app.use, express will know to use bodyParser on all forms
 // we will use the app.use whenever we want to wire up middleware inside our app
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,6 +17,7 @@ app.use(
 );
 
 app.use(authRouter);
+app.use(productsRouter);
 
 // app is an object that describes all the things our web server can do
 // we will customize app throught the project
