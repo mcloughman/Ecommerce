@@ -17,11 +17,15 @@ router.get("/admin/products/new", (req, res) => {
 
 router.post(
   "/admin/products/new",
+  upload.single("image"), // multer now handling body parsing since form is not urlencoded. we need multer middleware to run first
   [requireTitle, requirePrice],
-  upload.single("image"),
+
   async (req, res) => {
     res.send("Submitted");
     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.send(productsNewTemplate({ errors }));
+    }
     const image = req.file.buffer.toString("base64");
     const { title, price } = req.body;
     await productsRepo.create({ title, price, image });

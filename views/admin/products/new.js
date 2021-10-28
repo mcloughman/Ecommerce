@@ -6,8 +6,11 @@ module.exports = ({ errors }) => {
     content: `
         <form method="POST" enctype="multipart/form-data">
             <input placeholder="Title" name="title" />
+            ${getError(errors, "title")}
             <input placeholder="Price" name="price" />
+            ${getError(errors, "price")}
             <input type="file" name="image" />
+            ${getError(errors, "file")}
             <button>Submit</button>
         </form>
        
