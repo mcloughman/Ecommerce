@@ -19,3 +19,11 @@ Hashing and Salting - Initially, we have passwords stored as plain text in our J
 -- when we use express-validator, the implementation of validator methods is different syntax from validator.js. express makes it easier for the user.
 
 -- when we do error handling video 394, we want to resubmit the signup form if errors and we want those errors to be included. But we have to be careful when changing signup.js. If we add errors as a second prop, we need to be careful. because at initial signup, we don't want errors involved. And if we include it, it could lead to an issue. So we will write oout getError helper function
+
+-- video 403, should we push attributes instead of attribute???
+
+-- video 408 discussing enctype (encoding type) which is another attribute we can add to a form that prepares the form data
+the default enctype is enctype="application/x-www-form-urlencoded"
+-- the urlencoded means to take the information and make it safe to be transmitted inside a url. this doesn't allow the type="file" to be handled properly. so we need to change the enctype
+
+
