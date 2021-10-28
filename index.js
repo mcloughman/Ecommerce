@@ -5,6 +5,7 @@ const authRouter = require("./routes/admin/auth");
 const { comparePasswords } = require("./repositories/users");
 
 const app = express();
+app.use(express.static("public"));
 // when we use the app.use, express will know to use bodyParser on all forms
 // we will use the app.use whenever we want to wire up middleware inside our app
 app.use(bodyParser.urlencoded({ extended: true }));

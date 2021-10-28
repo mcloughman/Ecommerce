@@ -49,7 +49,7 @@ module.exports = {
         password
       );
       if (!validPassword) {
-        throw new Error("Invalid Password");
+        throw new Error("<h3>Invalid Password</h3>");
       }
     }),
 };
