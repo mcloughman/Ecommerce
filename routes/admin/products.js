@@ -21,8 +21,8 @@ router.post(
   [requireTitle, requirePrice],
 
   async (req, res) => {
-    res.send("Submitted");
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {
       return res.send(productsNewTemplate({ errors }));
     }
