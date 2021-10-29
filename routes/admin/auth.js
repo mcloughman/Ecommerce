@@ -1,6 +1,7 @@
 // We're going to move many route handlers from index.js to here for organizational purposes
 const express = require("express");
-const { check, validationResult } = require("express-validator"); // destructure to avoid using dot notation
+const { check } = require("express-validator"); // destructure to avoid using dot notation
+const { handleErrors } = require("./middlewares");
 const usersRepo = require("../../repositories/users");
 const signupTemplate = require("../../views/admin/auth/signup");
 const signinTemplate = require("../../views/admin/auth/signin");
@@ -15,20 +16,17 @@ const {
 const router = express.Router();
 
 router.get("/signup", (req, res) => {
-  res.send(signupTemplate({ req: req }));
+  res.send(signupTemplate({ req }));
 });
 
 // and now we need to actually make use of the middleware we created
 router.post(
   "/signup",
   [requireEmail, requirePassword, requirePasswordConfirmation],
+  handleErrors(signupTemplate),
 
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.send(signupTemplate({ req, errors }));
-    }
-    const { email, password, passwordConfirmation } = req.body;
+    const { email, password } = req.body;
     // key and value same for email so no need for email: email
 
     // Create a user in our usersRepo to rejpresent this person
@@ -55,13 +53,10 @@ router.get("/signin", (req, res) => {
 router.post(
   "/signin",
   [requireEmailExists, requireValidPasswordForUser],
+  handleErrors(signinTemplate),
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.send(signinTemplate({ errors }));
-    }
     const { email } = req.body;
-    const user = await usersRepo.getOneBy({ email: email });
+    const user = await usersRepo.getOneBy({ email });
 
     req.session.userId = user.id;
     res.send("You are signed in.");

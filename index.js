@@ -9,7 +9,7 @@ const app = express();
 app.use(express.static("public")); // every request will come through here, express will look in public folder
 // when we use the app.use, express will know to use bodyParser on all forms
 // we will use the app.use whenever we want to wire up middleware inside our app
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true })); // bodyParser only cares about urlencoded POST requests--we need help with type="file"
 app.use(
   cookieSession({
     keys: ["gibberishwhatever"],

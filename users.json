@@ -1,45 +1,7 @@
 [
   {
-    "email": "test@test.com"
-  },
-  {
-    "email": "mcloughman@gmail.com",
-    "password": "hello",
-    "id": "45aea2c4"
-  },
-  {
-    "email": "charlie.coyle@yahoo.com",
-    "password": "password",
-    "id": "9fab0f22"
-  },
-  {
     "email": "mgrabner@gmail.com",
-    "password": "bfa10714f481efd0c47fd6228131eb4756df4369e64ccdfa215ee048e2460ab0d26f27a4545860f584f6f9e3834be0f9f0cd55be8ed2fe58aa72aca16b2a5dc3.1d2199f670459a84",
-    "id": "41029607"
-  },
-  {
-    "email": "mgrabner@gmail.com",
-    "password": "287bc5b1727af15f936770b13ca73aa9f76c497b5b91e491078e62c7e7f559a199f160a09440b829f5ca76bc03449815d53b7e3a398f04abe5518ec6915442de.dfd7c0f9ac4014a2",
-    "id": "e5843342"
-  },
-  {
-    "email": "mgrabner@gmail.com",
-    "password": "17e3912b63b56b82ed8a87ddceb626556810c03e7660bc83187f8646f291798766bfb9fff78cdddf6682cb2d75c11de06b6e6636cd57fcedd738ccf8ecb1fef9.fc84590f276bd769",
-    "id": "684986e9"
-  },
-  {
-    "email": "charlie.coyle@yahoo.com",
-    "password": "6ad3bf242dad217c396053674e4c0d5b6a3c5a25152466eab08ac7d0e43ce2eba1b48118be334b1306edcdd0b2f5a9867915c0d0e3bce15991b312ba0640efc7.401081a0a34c51bc",
-    "id": "315928c5"
-  },
-  {
-    "email": "@pburejlahlf",
-    "password": "ac1e368845036e58d748df40eeb5c68eaa48e749da318b3ef323d2a0efcdcb04c507844ecfa01f25e2014b3eefc3372a38b85d9da139cd7b5c6a0e422f3ec761.cb5c18329990117c",
-    "id": "78bebf6b"
-  },
-  {
-    "email": "@;lajf;afj;fd",
-    "password": "b58168974479aecd0801da5e23e1055d3bcfbc96251432d67b8059055c8928c08da9ff9c64e7c4172c696e89caf620c64844d637ab9f1aed61b1362fc1781a34.f0d60eead9761149",
-    "id": "77f50fd5"
+    "password": "1804f571492d57fbaf54fe2664031c14b2747d37d460475e24f0eaab37de6eeba737c30ac5c4fb7b34d584a6e730afba195f0934c5c8951959937c305adcd327.0e6daa222a4be813",
+    "id": "613c3a62"
   }
 ]

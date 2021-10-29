@@ -33,6 +33,8 @@ module.exports = {
     .custom((passwordConfirmation, { req }) => {
       if (passwordConfirmation !== req.body.password) {
         throw new Error("Passwords must match");
+      } else {
+        return true; // this else statement is not included in the course as taught. It is necessary!!
       }
     }),
   requireEmailExists: check("email")
