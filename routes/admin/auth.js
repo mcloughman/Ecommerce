@@ -37,7 +37,7 @@ router.post(
     // req.session is added by cookie-session it's given as an empty object to which we can add whatever we want
     // we don't have to name the property userId!
     req.session.userId = user.id;
-    res.send("<h1>Account Created</h1>");
+    res.redirect("/admin/products");
   }
 );
 
@@ -59,7 +59,7 @@ router.post(
     const user = await usersRepo.getOneBy({ email });
 
     req.session.userId = user.id;
-    res.send("You are signed in.");
+    res.redirect("/admin/products");
   }
 );
 
