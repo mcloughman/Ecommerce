@@ -5,7 +5,6 @@ module.exports = {
     try {
       return errors.mapped()[prop].msg;
     } catch (err) {
-      console.log(err);
       return "";
     }
   },
