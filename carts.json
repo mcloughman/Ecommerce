@@ -16,7 +16,16 @@
     "id": "8984608d"
   },
   {
-    "items": [],
+    "items": [
+      {
+        "id": "f6b1fbbc",
+        "quantity": 1
+      },
+      {
+        "id": "62b582ba",
+        "quantity": 2
+      }
+    ],
     "id": "cd2368f9"
   }
 ]
